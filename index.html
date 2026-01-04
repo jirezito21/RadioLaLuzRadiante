@@ -5,6 +5,9 @@
   <title>Radio La Luz Radiante 101.3 FM</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles.css?v=2026">
+  <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1e90ff">
+
 </head>
 <body>
 
@@ -64,6 +67,16 @@
   <script src="script.js?v=2"></script>
   <link rel="stylesheet" href="styles.css?=v2">
 
+  <script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("service-worker.js")
+      .then(() => console.log("Service Worker registrado"))
+      .catch(err => console.error("SW error", err));
+  }
+</script>
+
+
+
   <!-- BARRA TIPO APP -->
 <div class="app-bar">
   <span>🏠</span>
@@ -71,8 +84,6 @@
   <span>📖</span>
   <span>💬</span>
 </div>
-
-
 
 
 </body>
