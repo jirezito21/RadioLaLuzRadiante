@@ -187,7 +187,7 @@ blockquote span {
 ========================= */
 
 .radio-app {
-  background: rgba(255,255,255,0.35);
+  background: red;
   backdrop-filter: blur(12px);
   border-radius: 30px;
   padding: 25px 20px;
@@ -238,3 +238,4 @@ blockquote span {
     padding: 18px;
   }
 }
+
