@@ -36,25 +36,27 @@
 
     <!-- REPRODUCTOR -->
     <div class="player">
-      <audio controls autoplay>
-        <!-- AQUÍ VA TU STREAM (AzuraCast / Zeno / Icecast) -->
-        <source src="https://TU_STREAM_AQUI" type="audio/mpeg">
-        Tu navegador no soporta audio en vivo.
-      </audio>
-    </div>
+  <audio id="radioPlayer" controls>
+    <source src="https://icecast.radiofrance.fr/fip-midfi.mp3" type="audio/mpeg">
+    Tu navegador no soporta audio en vivo.
+  </audio>
+</div>
 
-    <!-- BOTÓN -->
-    <a href="#" class="live-button">🎧 ESCUCHAR EN VIVO</a>
+<button id="liveBtn" class="live-button">
+  🔴 ESCUCHAR EN VIVO
+</button>
+
+
+
 
   </main>
 
   <!-- WHATSAPP -->
-  <a href="https://wa.me/51918215902" class="whatsapp" target="_blank">
-    💬
+  <a href="https://wa.me/51918215902?text=🎧%20Estoy%20escuchando%20Radio%20La%20Luz%20Radiante" class="whatsapp" target="_blank">
+    💬 
   </a>
 
   <script src="script.js"></script>
-
 
 </body>
 </html>

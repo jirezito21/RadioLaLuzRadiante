@@ -1,16 +1,31 @@
-const streamUrl = "https://TU_STREAM_AQUI";
+const radio = document.getElementById("radioPlayer");
+const liveBtn = document.getElementById("liveBtn");
+const liveStatus = document.getElementById("live-status");
 
-const statusDiv = document.getElementById("live-status");
-const audio = new Audio(streamUrl);
+const STREAM_URL = "https://icecast.radiofrance.fr/fip-midfi.mp3";
 
-audio.addEventListener("canplay", () => {
-  statusDiv.textContent = "🔴 EN VIVO";
-  statusDiv.classList.remove("offline");
-  statusDiv.classList.add("online");
-});
+let isPlaying = false;
 
-audio.addEventListener("error", () => {
-  statusDiv.textContent = "⚪ FUERA DE AIRE";
-  statusDiv.classList.remove("online");
-  statusDiv.classList.add("offline");
+liveBtn.addEventListener("click", () => {
+  if (!isPlaying) {
+    radio.src = STREAM_URL;
+    radio.load();
+    radio.play();
+
+    liveBtn.innerText = "⏸ PAUSAR";
+    liveStatus.innerText = "🔴 EN VIVO";
+    liveStatus.classList.remove("offline");
+    liveStatus.classList.add("online");
+
+    isPlaying = true;
+  } else {
+    radio.pause();
+
+    liveBtn.innerText = "🔴 ESCUCHAR EN VIVO";
+    liveStatus.innerText = "⚪ FUERA DE AIRE";
+    liveStatus.classList.remove("online");
+    liveStatus.classList.add("offline");
+
+    isPlaying = false;
+  }
 });
