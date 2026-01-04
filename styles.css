@@ -181,3 +181,60 @@ blockquote span {
   50% { opacity: 0.5; }
   100% { opacity: 1; }
 }
+
+/* =========================
+   DISEÑO TIPO APP DE RADIO
+========================= */
+
+.radio-app {
+  background: rgba(255,255,255,0.35);
+  backdrop-filter: blur(12px);
+  border-radius: 30px;
+  padding: 25px 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  margin-top: 20px;
+}
+
+/* Botón principal tipo app */
+.app-button {
+  width: 100%;
+  font-size: 1.1rem;
+  margin-top: 15px;
+  padding: 15px;
+  border: none;
+  cursor: pointer;
+}
+
+/* Barra de audio más limpia */
+.player audio {
+  width: 100%;
+  accent-color: #1e90ff;
+}
+
+/* Estado EN VIVO más visible */
+#live-status {
+  margin: 15px auto;
+  font-size: 0.95rem;
+}
+
+/* Mobile first */
+@media (max-width: 600px) {
+  body {
+    align-items: flex-start;
+  }
+
+  .container {
+    margin-top: 20px;
+    padding-bottom: 80px;
+  }
+
+  .radio-app {
+    position: sticky;
+    bottom: 20px;
+  }
+
+  .app-button {
+    font-size: 1.2rem;
+    padding: 18px;
+  }
+}
