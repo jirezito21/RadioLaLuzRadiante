@@ -1,0 +1,156 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #6ecbff, #e8f8ff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+.background-glow {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(255,255,255,0.4), transparent 70%);
+  animation: glow 6s infinite alternate;
+  z-index: -1;
+}
+
+@keyframes glow {
+  from { opacity: 0.6; }
+  to { opacity: 1; }
+}
+
+.container {
+  text-align: center;
+  max-width: 480px;
+  padding: 20px;
+}
+
+.logo-container img {
+  width: 220px;
+  animation: pulse 3s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+h1 {
+  margin-top: 15px;
+  font-size: 2rem;
+  color: #0a3d62;
+}
+
+.subtitle {
+  color: #1e6091;
+  margin-bottom: 20px;
+}
+
+blockquote {
+  background: rgba(255,255,255,0.7);
+  padding: 15px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
+blockquote span {
+  display: block;
+  margin-top: 8px;
+  font-weight: bold;
+}
+
+.player audio {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.live-button {
+  display: inline-block;
+  background: #1e90ff;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow: 0 0 15px rgba(30,144,255,0.6);
+  transition: transform 0.3s;
+}
+
+.live-button:hover {
+  transform: scale(1.1);
+}
+
+.whatsapp {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #25d366;
+  color: white;
+  font-size: 26px;
+  padding: 14px;
+  border-radius: 50%;
+  text-decoration: none;
+  box-shadow: 0 0 15px rgba(37,211,102,0.8);
+}
+
+
+/* EFECTO RAYOS DE LUZ */
+.light-rays {
+  position: relative;
+  display: inline-block;
+}
+
+.light-rays::before,
+.light-rays::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(255,255,255,0.5), transparent 70%);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  animation: rays 4s infinite alternate;
+  z-index: -1;
+}
+
+.light-rays::after {
+  animation-delay: 2s;
+  opacity: 0.6;
+}
+
+@keyframes rays {
+  from {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.4;
+  }
+  to {
+    transform: translate(-50%, -50%) scale(1.3);
+    opacity: 0.9;
+  }
+}
+
+@media (max-width: 600px) {
+  .logo-container img {
+    width: 180px;
+  }
+
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  blockquote {
+    font-size: 0.9rem;
+  }
+}

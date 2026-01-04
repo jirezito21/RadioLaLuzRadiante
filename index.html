@@ -4,54 +4,49 @@
   <meta charset="UTF-8">
   <title>Radio La Luz Radiante 101.3 FM</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <div class="radio-card">
+  <!-- FONDO LUMINOSO -->
+  <div class="background-glow"></div>
 
-    <div class="live-badge">
-      <span></span> EN VIVO
+  <main class="container">
+
+    <!-- LOGO -->
+    <div class="logo-container light-rays">
+    <img src="assets/logoradio.png" alt="Radio La Luz Radiante">
     </div>
 
-    <img src="assets/logoradio.png" alt="Radio La Luz Radiante" class="logo">
 
-    <h1>Radio La Luz Radiante</h1>
-    <h2>101.3 FM – La Voz de Dios</h2>
-
-    <audio id="radio" preload="none">
-      <source src="STREAM_URL_AQUI" type="audio/mpeg">
-    </audio>
-
-    <div class="controls">
-      <button id="play">▶ Escuchar en Vivo</button>
-      <button id="pause">⏸ Pausar</button>
-    </div>
+    <!-- TITULO -->
+    <h1>Radio La Luz Radiante 101.3 FM</h1>
+    <p class="subtitle">La voz de Dios para el mundo</p>
 
     <!-- MENSAJE BÍBLICO -->
-    <div class="verse">
-      <p>
-        “Yo soy la luz del mundo; el que me sigue, no andará en tinieblas,
-        sino que tendrá la luz de la vida.”  
-        <br><strong>Juan 8:12</strong>
-      </p>
+    <blockquote>
+      “Jesús les dijo: Yo soy la luz del mundo; el que me sigue, no andará en tinieblas.”  
+      <span>Juan 8:12</span>
+    </blockquote>
+
+    <!-- REPRODUCTOR -->
+    <div class="player">
+      <audio controls autoplay>
+        <!-- AQUÍ VA TU STREAM (AzuraCast / Zeno / Icecast) -->
+        <source src="https://TU_STREAM_AQUI" type="audio/mpeg">
+        Tu navegador no soporta audio en vivo.
+      </audio>
     </div>
 
-    <!-- BOTÓN WHATSAPP -->
-    <a
-      href="https://wa.me/51918215902"
-      target="_blank"
-      class="whatsapp-btn"
-    >
-      💬 Escríbenos por WhatsApp
-    </a>
+    <!-- BOTÓN -->
+    <a href="#" class="live-button">🎧 ESCUCHAR EN VIVO</a>
 
-    <p class="footer-text">
-      Llevando vida, amor y misericordia al Perú y al mundo 🌍
-    </p>
+  </main>
 
-  </div>
+  <!-- WHATSAPP -->
+  <a href="https://wa.me/51918215902" class="whatsapp" target="_blank">
+    💬
+  </a>
 
-  <script src="script.js"></script>
 </body>
 </html>
