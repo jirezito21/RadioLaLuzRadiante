@@ -154,3 +154,30 @@ blockquote span {
     font-size: 0.9rem;
   }
 }
+
+#live-status {
+  margin: 12px auto;
+  padding: 8px 18px;
+  width: fit-content;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+#live-status.online {
+  background: #ff4d4d;
+  color: white;
+  box-shadow: 0 0 10px rgba(255, 77, 77, 0.8);
+  animation: blink 1.5s infinite;
+}
+
+#live-status.offline {
+  background: #ccc;
+  color: #444;
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}

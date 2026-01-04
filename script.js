@@ -1,11 +1,16 @@
-const radio = document.getElementById("radio");
-const playBtn = document.getElementById("play");
-const pauseBtn = document.getElementById("pause");
+const streamUrl = "https://TU_STREAM_AQUI";
 
-playBtn.addEventListener("click", () => {
-  radio.play();
+const statusDiv = document.getElementById("live-status");
+const audio = new Audio(streamUrl);
+
+audio.addEventListener("canplay", () => {
+  statusDiv.textContent = "🔴 EN VIVO";
+  statusDiv.classList.remove("offline");
+  statusDiv.classList.add("online");
 });
 
-pauseBtn.addEventListener("click", () => {
-  radio.pause();
+audio.addEventListener("error", () => {
+  statusDiv.textContent = "⚪ FUERA DE AIRE";
+  statusDiv.classList.remove("online");
+  statusDiv.classList.add("offline");
 });
