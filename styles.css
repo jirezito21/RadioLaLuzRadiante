@@ -239,4 +239,59 @@ blockquote span {
   }
 }
 
+.volume-control {
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
 
+.volume-control input[type="range"] {
+  width: 150px;
+  cursor: pointer;
+}
+
+.live-button.playing {
+  background: #ff4d4d;
+  box-shadow: 0 0 15px rgba(255, 77, 77, 0.9);
+}
+
+body {
+  background: linear-gradient(180deg, #e6f4ff, #ffffff);
+}
+
+.container {
+  background: rgba(255,255,255,0.85);
+  border-radius: 30px;
+  padding: 25px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+/* BOTÓN PLAY APP */
+.live-button {
+  width: 100%;
+  font-size: 1.1rem;
+  padding: 15px;
+  margin-top: 15px;
+}
+
+/* BARRA APP INFERIOR */
+.app-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: white;
+  padding: 12px 20px;
+  box-shadow: 0 -5px 20px rgba(0,0,0,0.15);
+  display: flex;
+  justify-content: space-around;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.app-bar span {
+  font-size: 1.3rem;
+  cursor: pointer;
+}
