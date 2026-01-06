@@ -1,137 +1,103 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Radio La Luz Radiante 101.3 FM</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="styles.css?v=2026">
-  <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#1e90ff">
+    <meta charset="UTF-8">
+    <title>Radio La Luz Radiante 101.3 FM</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css?v=2026">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1e90ff">
 
 </head>
+
 <body>
 
-  <!-- FONDO LUMINOSO -->
-  <div class="background-glow"></div>
+    <!-- FONDO LUMINOSO -->
+    <div class="background-glow"></div>
 
-  <main class="container">
+    <main class="container">
 
-    <!-- LOGO -->
-    <div class="logo-container light-rays">
-    <img src="assets/logoradio.png" alt="Radio La Luz Radiante">
+        <!-- LOGO -->
+        <div class="logo-container light-rays">
+            <img src="assets/logoradio.png" alt="Radio La Luz Radiante">
+        </div>
+
+
+        <!-- TITULO -->
+        <h1>Radio La Luz Radiante 101.3 FM</h1>
+        <p class="subtitle">La voz de Dios para el mundo</p>
+
+        <div id="live-status" class="offline">
+            ⚪ FUERA DE AIRE
+        </div>
+
+
+        <!-- MENSAJE BÍBLICO -->
+        <blockquote>
+            “Jesús les dijo: Yo soy la luz del mundo; el que me sigue, no andará en tinieblas.”
+            <span>Juan 8:12</span>
+        </blockquote>
+
+        <!-- REPRODUCTOR -->
+        <!-- REPRODUCTOR TIPO APP -->
+        <div class="radio-app">
+
+            <audio id="radioPlayer">
+                <source src="https://icecast.radiofrance.fr/fip-midfi.mp3" type="audio/mpeg">
+            </audio>
+
+            <button id="liveButton" class="live-button">
+                🎧 ESCUCHAR EN VIVO
+            </button>
+
+            <div class="volume-control">
+                🔊
+                <input type="range" id="volume" min="0" max="1" step="0.01" value="1">
+            </div>
+
+        </div>
+        <section class="stats">
+            <div class="stat-card">
+                <span class="stat-icon">👥</span>
+                <span id="listeners">--</span>
+                <small>Oyentes</small>
+            </div>
+
+            <div class="stat-card">
+                <span class="stat-icon">🌍</span>
+                <span id="countries">--</span>
+                <small>Países</small>
+            </div>
+        </section>
+    </main>
+
+    <!-- WHATSAPP -->
+    <a id="whatsappBtn" class="whatsapp" href="#" aria-label="WhatsApp">
+        💬
+    </a>
+
+    <script src="script.js?v=3"></script>
+
+    <script>
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("service-worker.js")
+                .then(() => console.log("Service Worker registrado"))
+                .catch(err => console.error("SW error", err));
+        }
+    </script>
+
+
+
+    <!-- BARRA TIPO APP -->
+    <div class="app-bar">
+        <span>🏠</span>
+        <span>🎧</span>
+        <span>📖</span>
+        <span>💬</span>
     </div>
-
-
-    <!-- TITULO -->
-    <h1>Radio La Luz Radiante 101.3 FM</h1>
-    <p class="subtitle">La voz de Dios para el mundo</p>
-
-    <div id="live-status" class="offline">
-    ⚪ FUERA DE AIRE
-    </div>
-
-
-    <!-- MENSAJE BÍBLICO -->
-    <blockquote>
-      “Jesús les dijo: Yo soy la luz del mundo; el que me sigue, no andará en tinieblas.”  
-      <span>Juan 8:12</span>
-    </blockquote>
-
-    <!-- REPRODUCTOR -->
-   <!-- REPRODUCTOR TIPO APP -->
-<div class="radio-app">
-
-  <audio id="radioPlayer">
-    <source src="https://icecast.radiofrance.fr/fip-midfi.mp3" type="audio/mpeg">
-  </audio>
-
-  <button id="liveButton" class="live-button">
-    🎧 ESCUCHAR EN VIVO
-  </button>
-
-  <div class="volume-control">
-    🔊
-    <input type="range" id="volume" min="0" max="1" step="0.01" value="1">
-  </div>
-
-</div>
-<section class="stats">
-  <div class="stat-card">
-    <span class="stat-icon">👥</span>
-    <span id="listeners">--</span>
-    <small>Oyentes</small>
-  </div>
-
-  <div class="stat-card">
-    <span class="stat-icon">🌍</span>
-    <span id="countries">--</span>
-    <small>Países</small>
-  </div>
-
-  <div class="stat-card live">
-    <span class="stat-icon">🔴</span>
-    <span id="status">EN VIVO</span>
-    <small>Estado</small>
-  </div>
-</section>
-  </main>
-
-  
-
-
-
-
-
-  <!-- WHATSAPP -->
-  <a id="whatsappBtn" class="whatsapp" href="#" aria-label="WhatsApp">
-  💬
-</a>
-
-<script>
-  const WHATSAPP_NUMBER = "51918215902"; // ← TU NÚMERO CON CÓDIGO PAÍS
-  const RADIO_NAME = "Radio La Luz Radiante La Voz de Dios";
-
-  // Estado del stream (por ahora manual)
-  let streamStatus = "live"; // live | offline
-
-  document.getElementById("whatsappBtn").addEventListener("click", function (e) {
-    e.preventDefault();
-
-    let message = "";
-
-    if (streamStatus === "live") {
-      message = `📻 Estoy escuchando ${RADIO_NAME} EN VIVO. Bendiciones 🙏`;
-    } else {
-      message = `🙏 Quisiera más información sobre ${RADIO_NAME}`;
-    }
-
-    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-    window.open(url, "_blank");
-  });
-</script>
-
-
-
-  <script src="script.js?v=2"></script>
-  
-  <script>
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("service-worker.js")
-      .then(() => console.log("Service Worker registrado"))
-      .catch(err => console.error("SW error", err));
-  }
-</script>
-
-
-
-  <!-- BARRA TIPO APP -->
-<div class="app-bar">
-  <span>🏠</span>
-  <span>🎧</span>
-  <span>📖</span>
-  <span>💬</span>
-</div>
 
 
 </body>
+
 </html>

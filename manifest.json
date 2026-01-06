@@ -2,7 +2,7 @@
   "name": "Radio La Luz Radiante 101.3 FM",
   "short_name": "La Luz Radiante",
   "description": "La voz de Dios para el mundo",
-  "start_url": "./index.html",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#e8f8ff",
   "theme_color": "#1e90ff",
