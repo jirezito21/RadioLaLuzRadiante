@@ -38,35 +38,82 @@
     </blockquote>
 
     <!-- REPRODUCTOR -->
-    <div class="radio-app">
+   <!-- REPRODUCTOR TIPO APP -->
+<div class="radio-app">
 
-  <div class="player">
-    <audio id="radioPlayer">
-  <source src="https://icecast.radiofrance.fr/fip-midfi.mp3" type="audio/mpeg">
-</audio>
+  <audio id="radioPlayer">
+    <source src="https://icecast.radiofrance.fr/fip-midfi.mp3" type="audio/mpeg">
+  </audio>
 
-<!-- BOTÓN ÚNICO -->
-<button id="liveButton" class="live-button">
-  🎧 ESCUCHAR EN VIVO
-</button>
+  <button id="liveButton" class="live-button">
+    🎧 ESCUCHAR EN VIVO
+  </button>
 
-<!-- VOLUMEN -->
-<div class="volume-control">
-  🔊
-  <input type="range" id="volume" min="0" max="1" step="0.01" value="1">
+  <div class="volume-control">
+    🔊
+    <input type="range" id="volume" min="0" max="1" step="0.01" value="1">
+  </div>
 
 </div>
+<section class="stats">
+  <div class="stat-card">
+    <span class="stat-icon">👥</span>
+    <span id="listeners">--</span>
+    <small>Oyentes</small>
+  </div>
 
+  <div class="stat-card">
+    <span class="stat-icon">🌍</span>
+    <span id="countries">--</span>
+    <small>Países</small>
+  </div>
+
+  <div class="stat-card live">
+    <span class="stat-icon">🔴</span>
+    <span id="status">EN VIVO</span>
+    <small>Estado</small>
+  </div>
+</section>
   </main>
 
+  
+
+
+
+
+
   <!-- WHATSAPP -->
-  <a href="https://wa.me/51918215902?text=🎧%20Estoy%20escuchando%20Radio%20La%20Luz%20Radiante" class="whatsapp" target="_blank">
-    💬 
-  </a>
+  <a id="whatsappBtn" class="whatsapp" href="#" aria-label="WhatsApp">
+  💬
+</a>
+
+<script>
+  const WHATSAPP_NUMBER = "51918215902"; // ← TU NÚMERO CON CÓDIGO PAÍS
+  const RADIO_NAME = "Radio La Luz Radiante La Voz de Dios";
+
+  // Estado del stream (por ahora manual)
+  let streamStatus = "live"; // live | offline
+
+  document.getElementById("whatsappBtn").addEventListener("click", function (e) {
+    e.preventDefault();
+
+    let message = "";
+
+    if (streamStatus === "live") {
+      message = `📻 Estoy escuchando ${RADIO_NAME} EN VIVO. Bendiciones 🙏`;
+    } else {
+      message = `🙏 Quisiera más información sobre ${RADIO_NAME}`;
+    }
+
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    window.open(url, "_blank");
+  });
+</script>
+
+
 
   <script src="script.js?v=2"></script>
-  <link rel="stylesheet" href="styles.css?=v2">
-
+  
   <script>
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("service-worker.js")

@@ -34,3 +34,15 @@ button.addEventListener("click", () => {
 volume.addEventListener("input", () => {
   player.volume = volume.value;
 });
+
+player.volume = volume.value;
+
+
+  // SIMULACIÓN (luego AzuraCast lo reemplaza)
+  const listeners = Math.floor(Math.random() * 50) + 10;
+  const countries = Math.floor(Math.random() * 5) + 1;
+
+  document.getElementById("listeners").textContent = listeners;
+  document.getElementById("countries").textContent = countries;
+  document.getElementById("status").textContent = "EN VIVO";
+
