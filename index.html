@@ -4,37 +4,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Radio La Luz Radiante 101.3 FM</title>
-    <meta name = "description" content = "Escucha Radio la luz Radiante en vivo desde Perú. Con alabanzas que edifican, y atraen la presencia de Dios.">
-    <meta name = "keywords" content = "Radio la luz Radiante, 101.3 FM, Radio Perú, Radio en vivo, Emisora Cristiana">
+    <meta name="description"
+        content="Escucha Radio la luz Radiante en vivo desde Perú. Con alabanzas que edifican, y atraen la presencia de Dios.">
+    <meta name="keywords" content="Radio la luz Radiante, 101.3 FM, Radio Perú, Radio en vivo, Emisora Cristiana">
     <meta name="google-site-verification" content="Mi51dig0FQOE1opUUAdmFRPIjxxDC26R7vTotRq-vAw" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1e90ff">
     <link rel="stylesheet" href="styles.css">
-
 </head>
 
 <body>
-
     <!-- FONDO LUMINOSO -->
     <div class="background-glow"></div>
 
     <main class="container">
-
         <!-- LOGO -->
         <div class="logo-container light-rays">
             <img src="assets/logoradio.png" alt="Radio La Luz Radiante">
         </div>
 
-
         <!-- TITULO -->
         <h1>Radio La Luz Radiante 101.3 FM</h1>
         <p class="subtitle">La voz de Dios para el mundo</p>
-
-        <div id="live-status" class="offline" aria-live="polite">
-            ⚪ FUERA DE AIRE
-        </div>
-
 
         <!-- MENSAJE BÍBLICO -->
         <blockquote id="bible-block">
@@ -43,35 +35,24 @@
         </blockquote>
 
         <!-- REPRODUCTOR -->
-        <!-- REPRODUCTOR TIPO APP -->
-        <div class="radio-player">
+        <div class="radio-player-container" style="text-align: center; margin: 30px 0; min-height: 100px;">
 
-            <audio id="radioPlayer" preload="none">
-                <source src="https://sapircast.caster.fm:16040/eL4dh" type="audio/mpeg">
-            </audio>
+            <div data-type="newStreamPlayer" data-publicToken="dbb0bb20-0fd9-41bc-9a6c-693b20e27199" data-theme="light"
+                data-color="e81e4d" data-channelId="" data-rendered="false" class="cstrEmbed">
 
-            <button id="liveButton" class="live-button">
-                🎧 ESCUCHAR EN VIVO
-            </button>
-
-            <div class="volume-control">
-                🔊
-                <input type="range" id="volume" min="0" max="1" step="0.01" value="1">
+                <a href="https://www.caster.fm">Shoutcast Hosting</a>
+                <a href="https://www.caster.fm">Stream Hosting</a>
+                <a href="https://www.caster.fm">Radio Server Hosting</a>
             </div>
+
+            <script src="https://cdn.cloud.caster.fm/widgets/embed.js"></script>
 
         </div>
-        <section class="stats">
-            <div class="stat-card">
-                <span class="stat-icon">👥</span>
-                <span id="listeners">--</span>
-                <small>Oyentes</small>
-            </div>
 
-            <div class="stat-card">
-                <span class="stat-icon">🌍</span>
-                <span id="countries">--</span>
-                <small>Países</small>
-            </div>
+        <section class="stats">
+            <p style="opacity: 0.8; font-size: 0.9rem;">
+                🔴 Transmitiendo señal segura
+            </p>
         </section>
     </main>
 

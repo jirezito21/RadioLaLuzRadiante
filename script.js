@@ -1,8 +1,4 @@
 //REFERENCIAS A ELEMENTOS DEL DOM
-const player = document.getElementById("radioPlayer");
-const button = document.getElementById("liveButton");
-const status = document.getElementById("live-status");
-const volume = document.getElementById("volume");
 //Bloque de la Biblia
 const bibleBlock = document.getElementById("bible-block");
 //Bloque de Whatsapp
@@ -10,18 +6,9 @@ const whatsappBtn = document.getElementById("whatsappBtn");
 
 //ESTADO GLOBAL DEL STREAM (FUENTE DE VERDAD)
 
-const STREAM = {
-  isLive: false,     // ¿La radio está sonando?
-  listeners: 0,      // Oyentes actuales
-  countries: 0       // Países conectados
-};
-
 //VARIABLES DE CONTROL
-let isPlaying = false;   // Estado real del audio
-let userPaused = false; // Si el usuario pausó manualmente
-let isBusy = false;     // Evita doble click rápido
 
-// LÓGICA DE VERSÍCULOS AUTOMÁTICOS ---
+// LÓGICA DE VERSÍCULOS AUTOMÁTICOS
 const verses = [
     { t: "Jesús les dijo: Yo soy la luz del mundo; el que me sigue, no andará en tinieblas.", r: "Juan 8:12" },
     { t: "Lámpara es a mis pies tu palabra, y lumbrera a mi camino.", r: "Salmos 119:105" },
@@ -34,126 +21,40 @@ const verses = [
 
 function updateVerse() {
     // Desvanecer
-    bibleBlock.style.opacity = 0;
-    
-    setTimeout(() => {
-        const random = verses[Math.floor(Math.random() * verses.length)];
-        bibleBlock.innerHTML = `“${random.t}”<span>${random.r}</span>`;
-        // Reaparecer
-        bibleBlock.style.opacity = 1;
-    }, 500);
+    if(bibleBlock) {
+        bibleBlock.style.opacity = 0;
+        setTimeout(() => {
+            const random = verses[Math.floor(Math.random() * verses.length)];
+            bibleBlock.innerHTML = `“${random.t}”<span>${random.r}</span>`;
+            // Reaparecer
+            bibleBlock.style.opacity = 1;
+        }, 500);
+    }
 }
 
 // Configurar el cambio automático: 300,000 ms = 5 minutos
 setInterval(updateVerse, 300000);
 
 //ACTUALIZA ESTADO VISUAL (EN VIVO / PAUSADO)
-function updateLiveStatus(isLive) {
-  STREAM.isLive = isLive;
-  document.body.classList.toggle("is-live", isLive)
-
-  if (isLive) {
-    status.textContent = "🔴 EN VIVO";
-    status.classList.add("online");
-    status.classList.remove("offline");
-    
-  } else {
-    status.textContent = "⚪ PAUSADO";
-    status.classList.remove("online");
-    status.classList.add("offline");
-  }
-}
 
 //ACTUALIZA ESTADÍSTICAS (OYENTES / PAÍSES)
-function updateStats(listeners, countries) {
-  STREAM.listeners = listeners;
-  STREAM.countries = countries;
-
-  document.getElementById("listeners").textContent = listeners;
-  document.getElementById("countries").textContent = countries;
-}
 
 //BOTÓN PLAY / PAUSE (ÚNICO Y PROTEGIDO)
 
-button.addEventListener("click", async () => {
-  if (isBusy) return;     // Evita doble toque
-  isBusy = true;
-
-  try {
-    if (!isPlaying) {
-      userPaused = false;
-      await player.play();
-    } else {
-      userPaused = true;
-      player.pause();
-    }
-  } catch {
-    status.textContent = "⚠️ Toca para reproducir";
-  } finally {
-    setTimeout(() => (isBusy = false), 500);
-  }
-});
-
 //CONTROL DE VOLUMEN (NO CONSUME DATOS EXTRA)
 
-volume.addEventListener("input", () => {
-  player.volume = volume.value;
-});
-player.volume = volume.value;
-
-//EVENTOS REALES DEL AUDIO (LA VERDAD MANDA)
-
-// Cuando el audio realmente empieza
-player.addEventListener("play", () => {
-  if (userPaused) return;
-
-  isPlaying = true;
-  updateLiveStatus(true);
-
-  button.textContent = "⏸ PAUSAR RADIO";
-  button.classList.add("playing");
-});
-
-// Cuando el audio se pausa
-player.addEventListener("pause", () => {
-  isPlaying = false;
-  updateLiveStatus(false);
-
-  button.textContent = "🎧 ESCUCHAR EN VIVO";
-  button.classList.remove("playing");
-});
-
 // Error de conexión con el stream
-player.addEventListener("error", () => {
-  isPlaying = false;
-  updateLiveStatus(false);
-
-  status.textContent = "⚠️ ERROR DE CONEXIÓN";
-  button.textContent = "🎧 ESCUCHAR EN VIVO";
-  button.classList.remove("playing");
-});
 
 // SIMULACIÓN DE ESTADÍSTICAS (Luego será reemplazado por AzuraCast API)
-const listeners = Math.floor(Math.random() * 50) + 10;
-const countries = Math.floor(Math.random() * 5) + 1;
-updateStats(listeners, countries);
-
 
 // WHATSAPP AUTOMÁTICO SEGÚN ESTADO REAL
-
 const WHATSAPP_NUMBER = "51918215902";
 const RADIO_NAME = "Radio La Luz Radiante 101.3 FM";
-
-function getWhatsAppMessage() {
-  return STREAM.isLive
-    ? `📻 Estoy escuchando ${RADIO_NAME} EN VIVO 🙏`
-    : `🙏 Quisiera más información sobre ${RADIO_NAME}`;
-}
 
 if (whatsappBtn) {
   whatsappBtn.addEventListener("click", e => {
     e.preventDefault();
-    const msg = getWhatsAppMessage();
+    const msg = `📻 Hola, estoy escuchando ${RADIO_NAME} y quisiera contactarme con ustedes. 🙏`;
     const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
     window.open(url, "_blank");
   });
@@ -169,40 +70,20 @@ if ('serviceWorker' in navigator) {
 }
 
 // 📦 CARGAR VERSIÓN AUTOMÁTICA
-fetch('version.json', { cache: 'no-store' })
-  .then(res => res.json())
-  .then(v => {
-    const el = document.querySelector('.version');
-    if (el) {
-      el.textContent = `v${v.version} · ${v.date}`;
-    }
-  })
-  .catch(() => { });
 
 // APP BAR FUNCIONAL (ESTABLE)
 
 const appBar = document.querySelector(".app-bar");
-
 if (appBar) {
   appBar.addEventListener("click", e => {
     const btn = e.target.closest("button");
     if (!btn) return;
-
     const action = btn.dataset.action;
 
     switch (action) {
       case "home":
         window.scrollTo({ top: 0, behavior: "smooth" });
         break;
-
-      case "play":
-        button.click(); // botón real
-        break;
-
-      case "bible":
-        toggleBible();
-        break;
-
       case "whatsapp":
         whatsappBtn.click();
         break;
@@ -210,24 +91,3 @@ if (appBar) {
   });
 }
 
-
-function toggleBible() {
-  const verse = document.querySelector("blockquote");
-  if (verse) {
-    verse.classList.toggle("hidden");
-  }
-}
-
-
-/*AZURACAST (DESACTIVADO POR AHORA)
- 
-fetch("https://tu-azuracast/api/nowplaying/radio")
- .then(r => r.json())
- .then(data => {
-   updateLiveStatus(data.live.is_live);
-   updateStats(
-     data.listeners.current,
-     data.listeners.unique
-   );
- });
-*/
