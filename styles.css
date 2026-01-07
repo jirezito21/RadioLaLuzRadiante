@@ -356,3 +356,9 @@ body {
   border: 1px solid #ff3b3b;
 }
 
+body:not(.is-live) .background-glow,
+body:not(.is-live) .light-rays::before,
+body:not(.is-live) .light-rays::after,
+body:not(.is-live) .logo-container img {
+  animation: none;
+}

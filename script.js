@@ -1,120 +1,144 @@
+//REFERENCIAS A ELEMENTOS DEL DOM
 const player = document.getElementById("radioPlayer");
 const button = document.getElementById("liveButton");
 const status = document.getElementById("live-status");
 const volume = document.getElementById("volume");
+const whatsappBtn = document.getElementById("whatsappBtn");
 
-let isPlaying = false;
-let userPaused = false;
+//ESTADO GLOBAL DEL STREAM (FUENTE DE VERDAD)
+ 
+const STREAM = {
+  isLive: false,     // ¿La radio está sonando?
+  listeners: 0,      // Oyentes actuales
+  countries: 0       // Países conectados
+};
 
-// BOTÓN PLAY / PAUSE
-button.addEventListener("click", () => {
-    if (!isPlaying) {
-        userPaused = false;
-        player.play().catch(() => {
-            status.textContent = "⚠️ Toca para reproducir";
-        });
-    } else {
-        userPaused = true;
-        player.pause();
-    }
-});
+//VARIABLES DE CONTROL
+let isPlaying = false;   // Estado real del audio
+let userPaused = false; // Si el usuario pausó manualmente
+let isBusy = false;     // Evita doble click rápido
 
+ //ACTUALIZA ESTADO VISUAL (EN VIVO / PAUSADO)
+function updateLiveStatus(isLive) {
+  STREAM.isLive = isLive;
+  document.body.classList.toggle("is-live", isLive)
 
-// CONTROL DE VOLUMEN
-volume.addEventListener("input", () => {
-    player.volume = volume.value;
-});
-
-player.volume = volume.value;
-
-// ================================
-// ESTADO REAL DEL AUDIO (IMPORTANTE)
-// ================================
-
-// Cuando el audio realmente empieza
-player.addEventListener("play", () => {
-    if (userPaused) return;
-
-    isPlaying = true;
-    streamStatus = "live";
-
-    button.textContent = "⏸ PAUSAR RADIO";
-    button.classList.add("playing");
-
+  if (isLive) {
     status.textContent = "🔴 EN VIVO";
-    status.classList.remove("offline");
     status.classList.add("online");
-});
-
-// Cuando el audio se pausa o se corta
-player.addEventListener("pause", () => {
-    isPlaying = false;
-    streamStatus = "paused";
-
-    button.textContent = "🎧 ESCUCHAR EN VIVO";
-    button.classList.remove("playing");
-
+    status.classList.remove("offline");
+  } else {
     status.textContent = "⚪ PAUSADO";
     status.classList.remove("online");
     status.classList.add("offline");
-});
-
-// Cuando hay error de conexión
-player.addEventListener("error", () => {
-    isPlaying = false;
-    streamStatus = "offline";
-    
-    status.textContent = "⚠️ ERROR DE CONEXIÓN";
-    status.classList.remove("online");
-    status.classList.add("offline");
-});
-
-
-// SIMULACIÓN (luego AzuraCast lo reemplaza)
-const listeners = Math.floor(Math.random() * 50) + 10;
-const countries = Math.floor(Math.random() * 5) + 1;
-
-const listenersEl = document.getElementById("listeners");
-const countriesEl = document.getElementById("countries");
-
-if (listenersEl && countriesEl) {
-    listenersEl.textContent = listeners;
-    countriesEl.textContent = countries;
+  }
 }
 
-window.getStreamStatus = () => (isPlaying ? "live" : "offline");
+ //ACTUALIZA ESTADÍSTICAS (OYENTES / PAÍSES)
+function updateStats(listeners, countries) {
+  STREAM.listeners = listeners;
+  STREAM.countries = countries;
 
-// ================================
-// WHATSAPP AUTOMÁTICO (ESTADO REAL)
-// ================================
+  document.getElementById("listeners").textContent = listeners;
+  document.getElementById("countries").textContent = countries;
+}
 
+ //BOTÓN PLAY / PAUSE (ÚNICO Y PROTEGIDO)
+ 
+button.addEventListener("click", async () => {
+  if (isBusy) return;     // Evita doble toque
+  isBusy = true;
+
+  try {
+    if (!isPlaying) {
+      userPaused = false;
+      await player.play();
+    } else {
+      userPaused = true;
+      player.pause();
+    }
+  } catch {
+    status.textContent = "⚠️ Toca para reproducir";
+  } finally {
+    setTimeout(() => (isBusy = false), 500);
+  }
+});
+
+//CONTROL DE VOLUMEN (NO CONSUME DATOS EXTRA)
+ 
+volume.addEventListener("input", () => {
+  player.volume = volume.value;
+});
+player.volume = volume.value;
+
+//EVENTOS REALES DEL AUDIO (LA VERDAD MANDA)
+
+// Cuando el audio realmente empieza
+player.addEventListener("play", () => {
+  if (userPaused) return;
+
+  isPlaying = true;
+  updateLiveStatus(true);
+
+  button.textContent = "⏸ PAUSAR RADIO";
+  button.classList.add("playing");
+});
+
+// Cuando el audio se pausa
+player.addEventListener("pause", () => {
+  isPlaying = false;
+  updateLiveStatus(false);
+
+  button.textContent = "🎧 ESCUCHAR EN VIVO";
+  button.classList.remove("playing");
+});
+
+// Error de conexión con el stream
+player.addEventListener("error", () => {
+  isPlaying = false;
+  updateLiveStatus(false);
+
+  status.textContent = "⚠️ ERROR DE CONEXIÓN";
+  button.textContent = "🎧 ESCUCHAR EN VIVO";
+  button.classList.remove("playing");
+});
+
+// SIMULACIÓN DE ESTADÍSTICAS (Luego será reemplazado por AzuraCast API)
+const listeners = Math.floor(Math.random() * 50) + 10;
+const countries = Math.floor(Math.random() * 5) + 1;
+updateStats(listeners, countries);
+
+
+ // WHATSAPP AUTOMÁTICO SEGÚN ESTADO REAL
+ 
 const WHATSAPP_NUMBER = "51918215902";
 const RADIO_NAME = "Radio La Luz Radiante 101.3 FM";
 
-let streamStatus = "offline"; // live | paused | offline
-
-const whatsappBtn = document.getElementById("whatsappBtn");
+function getWhatsAppMessage() {
+  return STREAM.isLive
+    ? `📻 Estoy escuchando ${RADIO_NAME} EN VIVO 🙏`
+    : `🙏 Quisiera más información sobre ${RADIO_NAME}`;
+}
 
 if (whatsappBtn) {
-  whatsappBtn.addEventListener("click", function (e) {
+  whatsappBtn.addEventListener("click", e => {
     e.preventDefault();
-
-    let message = "";
-
-    switch (streamStatus) {
-      case "live":
-        message = `📻 Estoy escuchando ${RADIO_NAME} EN VIVO. Bendiciones 🙏`;
-        break;
-
-      case "paused":
-        message = `🎧 Estoy escuchando ${RADIO_NAME}, pero ahora está en pausa.`;
-        break;
-
-      default:
-        message = `🙏 Quisiera más información sobre ${RADIO_NAME}`;
-    }
-
-    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    const msg = getWhatsAppMessage();
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
     window.open(url, "_blank");
   });
 }
+
+
+ /*AZURACAST (DESACTIVADO POR AHORA)
+ 
+fetch("https://tu-azuracast/api/nowplaying/radio")
+  .then(r => r.json())
+  .then(data => {
+    updateLiveStatus(data.live.is_live);
+    updateStats(
+      data.listeners.current,
+      data.listeners.unique
+    );
+  });
+*/

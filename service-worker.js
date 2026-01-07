@@ -1,73 +1,45 @@
-const CACHE_VERSION = "v2026-01-07";
-const STATIC_CACHE = `radio-static-${CACHE_VERSION}`;
+/* ================================
+   SERVICE WORKER ULTRA LIGERO
+   Radio La Luz Radiante
+   ================================ */
 
-const STATIC_FILES = [
-  "./",
-  "./index.html",
-  "./styles.css",
-  "./script.js",
-  "./manifest.json",
-  "./assets/logoradio.png",
-  "./assets/icon-192.png",
-  "./assets/icon-512.png"
-];
-
-// =======================
-// INSTALACIÓN
-// =======================
 self.addEventListener("install", event => {
-  event.waitUntil(
-    caches.open(STATIC_CACHE).then(cache => {
-      return cache.addAll(STATIC_FILES);
-    })
-  );
   self.skipWaiting();
 });
 
-// =======================
-// ACTIVACIÓN
-// =======================
 self.addEventListener("activate", event => {
   event.waitUntil(
     caches.keys().then(keys =>
-      Promise.all(
-        keys.map(key => {
-          if (key !== STATIC_CACHE) {
-            return caches.delete(key);
-          }
-        })
-      )
+      Promise.all(keys.map(key => caches.delete(key)))
     )
   );
   self.clients.claim();
 });
 
-// =======================
-// FETCH
-// =======================
 self.addEventListener("fetch", event => {
-  const request = event.request;
+  const req = event.request;
 
-  // HTML → SIEMPRE red (evita caché viejo)
-  if (request.headers.get("accept")?.includes("text/html")) {
-    event.respondWith(
-      fetch(request).catch(() => caches.match("./index.html"))
-    );
+  // ❌ NO cachear streaming ni APIs
+  if (
+    req.url.includes("icecast") ||
+    req.url.includes("azuracast") ||
+    req.destination === "audio"
+  ) {
     return;
   }
 
-  // Otros archivos → caché + actualización
   event.respondWith(
-    caches.match(request).then(response => {
-      return (
-        response ||
-        fetch(request).then(fetchResponse => {
-          return caches.open(STATIC_CACHE).then(cache => {
-            cache.put(request, fetchResponse.clone());
-            return fetchResponse;
+    fetch(req)
+      .then(res => {
+        // Cache solo respuestas válidas
+        if (res.status === 200 && res.type === "basic") {
+          const clone = res.clone();
+          caches.open("radio-cache").then(cache => {
+            cache.put(req, clone);
           });
-        })
-      );
-    })
+        }
+        return res;
+      })
+      .catch(() => caches.match(req))
   );
 });
