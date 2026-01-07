@@ -3,10 +3,13 @@ const player = document.getElementById("radioPlayer");
 const button = document.getElementById("liveButton");
 const status = document.getElementById("live-status");
 const volume = document.getElementById("volume");
+//Bloque de la Biblia
+const bibleBlock = document.getElementById("bible-block");
+//Bloque de Whatsapp
 const whatsappBtn = document.getElementById("whatsappBtn");
 
 //ESTADO GLOBAL DEL STREAM (FUENTE DE VERDAD)
- 
+
 const STREAM = {
   isLive: false,     // ¿La radio está sonando?
   listeners: 0,      // Oyentes actuales
@@ -18,7 +21,33 @@ let isPlaying = false;   // Estado real del audio
 let userPaused = false; // Si el usuario pausó manualmente
 let isBusy = false;     // Evita doble click rápido
 
- //ACTUALIZA ESTADO VISUAL (EN VIVO / PAUSADO)
+// LÓGICA DE VERSÍCULOS AUTOMÁTICOS ---
+const verses = [
+    { t: "Jesús les dijo: Yo soy la luz del mundo; el que me sigue, no andará en tinieblas.", r: "Juan 8:12" },
+    { t: "Lámpara es a mis pies tu palabra, y lumbrera a mi camino.", r: "Salmos 119:105" },
+    { t: "Todo lo puedo en Cristo que me fortalece.", r: "Filipenses 4:13" },
+    { t: "Jehová es mi pastor; nada me faltará.", r: "Salmos 23:1" },
+    { t: "Porque de tal manera amó Dios al mundo, que ha dado a su Hijo unigénito...", r: "Juan 3:16" },
+    { t: "Mira que te mando que te esfuerces y seas valiente; no temas ni desmayes.", r: "Josué 1:9" },
+    { t: "Venid a mí todos los que estáis trabajados y cargados, y yo os haré descansar.", r: "Mateo 11:28" }
+];
+
+function updateVerse() {
+    // Desvanecer
+    bibleBlock.style.opacity = 0;
+    
+    setTimeout(() => {
+        const random = verses[Math.floor(Math.random() * verses.length)];
+        bibleBlock.innerHTML = `“${random.t}”<span>${random.r}</span>`;
+        // Reaparecer
+        bibleBlock.style.opacity = 1;
+    }, 500);
+}
+
+// Configurar el cambio automático: 300,000 ms = 5 minutos
+setInterval(updateVerse, 300000);
+
+//ACTUALIZA ESTADO VISUAL (EN VIVO / PAUSADO)
 function updateLiveStatus(isLive) {
   STREAM.isLive = isLive;
   document.body.classList.toggle("is-live", isLive)
@@ -27,6 +56,7 @@ function updateLiveStatus(isLive) {
     status.textContent = "🔴 EN VIVO";
     status.classList.add("online");
     status.classList.remove("offline");
+    
   } else {
     status.textContent = "⚪ PAUSADO";
     status.classList.remove("online");
@@ -34,7 +64,7 @@ function updateLiveStatus(isLive) {
   }
 }
 
- //ACTUALIZA ESTADÍSTICAS (OYENTES / PAÍSES)
+//ACTUALIZA ESTADÍSTICAS (OYENTES / PAÍSES)
 function updateStats(listeners, countries) {
   STREAM.listeners = listeners;
   STREAM.countries = countries;
@@ -43,8 +73,8 @@ function updateStats(listeners, countries) {
   document.getElementById("countries").textContent = countries;
 }
 
- //BOTÓN PLAY / PAUSE (ÚNICO Y PROTEGIDO)
- 
+//BOTÓN PLAY / PAUSE (ÚNICO Y PROTEGIDO)
+
 button.addEventListener("click", async () => {
   if (isBusy) return;     // Evita doble toque
   isBusy = true;
@@ -65,7 +95,7 @@ button.addEventListener("click", async () => {
 });
 
 //CONTROL DE VOLUMEN (NO CONSUME DATOS EXTRA)
- 
+
 volume.addEventListener("input", () => {
   player.volume = volume.value;
 });
@@ -109,8 +139,8 @@ const countries = Math.floor(Math.random() * 5) + 1;
 updateStats(listeners, countries);
 
 
- // WHATSAPP AUTOMÁTICO SEGÚN ESTADO REAL
- 
+// WHATSAPP AUTOMÁTICO SEGÚN ESTADO REAL
+
 const WHATSAPP_NUMBER = "51918215902";
 const RADIO_NAME = "Radio La Luz Radiante 101.3 FM";
 
@@ -129,16 +159,75 @@ if (whatsappBtn) {
   });
 }
 
+// 🔄 FORZAR ACTUALIZACIÓN SUAVE DEL SERVICE WORKER
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistration().then(reg => {
+    if (reg) {
+      reg.update();
+    }
+  });
+}
 
- /*AZURACAST (DESACTIVADO POR AHORA)
+// 📦 CARGAR VERSIÓN AUTOMÁTICA
+fetch('version.json', { cache: 'no-store' })
+  .then(res => res.json())
+  .then(v => {
+    const el = document.querySelector('.version');
+    if (el) {
+      el.textContent = `v${v.version} · ${v.date}`;
+    }
+  })
+  .catch(() => { });
+
+// APP BAR FUNCIONAL (ESTABLE)
+
+const appBar = document.querySelector(".app-bar");
+
+if (appBar) {
+  appBar.addEventListener("click", e => {
+    const btn = e.target.closest("button");
+    if (!btn) return;
+
+    const action = btn.dataset.action;
+
+    switch (action) {
+      case "home":
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        break;
+
+      case "play":
+        button.click(); // botón real
+        break;
+
+      case "bible":
+        toggleBible();
+        break;
+
+      case "whatsapp":
+        whatsappBtn.click();
+        break;
+    }
+  });
+}
+
+
+function toggleBible() {
+  const verse = document.querySelector("blockquote");
+  if (verse) {
+    verse.classList.toggle("hidden");
+  }
+}
+
+
+/*AZURACAST (DESACTIVADO POR AHORA)
  
 fetch("https://tu-azuracast/api/nowplaying/radio")
-  .then(r => r.json())
-  .then(data => {
-    updateLiveStatus(data.live.is_live);
-    updateStats(
-      data.listeners.current,
-      data.listeners.unique
-    );
-  });
+ .then(r => r.json())
+ .then(data => {
+   updateLiveStatus(data.live.is_live);
+   updateStats(
+     data.listeners.current,
+     data.listeners.unique
+   );
+ });
 */

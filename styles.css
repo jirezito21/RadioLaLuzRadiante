@@ -184,13 +184,14 @@ blockquote span {
 }
 
 /* Botón principal tipo app */
-.app-button {
-  width: 100%;
-  font-size: 1.1rem;
-  margin-top: 15px;
-  padding: 15px;
+.app-bar button {
+  background: none;
   border: none;
+  font-size: 1.4rem;
   cursor: pointer;
+}
+.app-bar button:active {
+  transform: scale(0.9);
 }
 
 /* Barra de audio más limpia */
@@ -295,18 +296,15 @@ body {
 .app-bar {
   position: fixed;
   bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 420px;
-  background: white;
-  padding: 12px 0;
-  box-shadow: 0 -5px 20px rgba(0,0,0,0.15);
+  left: 0;
+  right: 0;
+  height: 52px;
+  background: rgba(255,255,255,0.95);
   display: flex;
   justify-content: space-around;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  z-index: 9;
+  align-items: center;
+  border-top: 1px solid #ddd;
+  z-index: 1000;
 }
 
 .whatsapp {
@@ -362,3 +360,14 @@ body:not(.is-live) .light-rays::after,
 body:not(.is-live) .logo-container img {
   animation: none;
 }
+
+blockquote {
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  overflow: hidden;
+}
+
+blockquote.hidden {
+  max-height: 0;
+  opacity: 0;
+}
+

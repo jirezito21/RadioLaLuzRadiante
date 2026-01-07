@@ -4,6 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Radio La Luz Radiante 101.3 FM</title>
+    <meta name = "description" content = "Escucha Radio la luz Radiante en vivo desde Perú. Con alabanzas que edifican, y atraen la presencia de Dios.">
+    <meta name = "keywords" content = "Radio la luz Radiante, 101.3 FM, Radio Perú, Radio en vivo, Emisora Cristiana">
+    <meta name="google-site-verification" content="Mi51dig0FQOE1opUUAdmFRPIjxxDC26R7vTotRq-vAw" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#1e90ff">
@@ -28,20 +31,22 @@
         <h1>Radio La Luz Radiante 101.3 FM</h1>
         <p class="subtitle">La voz de Dios para el mundo</p>
 
+        <div class="version" style="dislay:none"></div>
+
         <div id="live-status" class="offline" aria-live="polite">
             ⚪ FUERA DE AIRE
         </div>
 
 
         <!-- MENSAJE BÍBLICO -->
-        <blockquote>
+        <blockquote id="bible-block">
             “Jesús les dijo: Yo soy la luz del mundo; el que me sigue, no andará en tinieblas.”
             <span>Juan 8:12</span>
         </blockquote>
 
         <!-- REPRODUCTOR -->
         <!-- REPRODUCTOR TIPO APP -->
-        <div class="radio-app">
+        <div class="radio-player">
 
             <audio id="radioPlayer" preload="none">
                 <source src="https://icecast.radiofrance.fr/fip-midfi.mp3" type="audio/mpeg">
@@ -78,21 +83,6 @@
     </a>
 
     <script src="script.js"></script>
-
-    <script>
-        if ("serviceWorker" in navigator) {
-            navigator.serviceWorker.register("service-worker.js");
-        }
-    </script>
-
-    <!-- BARRA TIPO APP -->
-    <div class="app-bar">
-        <span>🏠</span>
-        <span>🎧</span>
-        <span>📖</span>
-        <span>💬</span>
-    </div>
-
 
 </body>
 
