@@ -4,10 +4,6 @@ const bibleBlock = document.getElementById("bible-block");
 //Bloque de Whatsapp
 const whatsappBtn = document.getElementById("whatsappBtn");
 
-//ESTADO GLOBAL DEL STREAM (FUENTE DE VERDAD)
-
-//VARIABLES DE CONTROL
-
 // LÓGICA DE VERSÍCULOS AUTOMÁTICOS
 const verses = [
     { t: "Jesús les dijo: Yo soy la luz del mundo; el que me sigue, no andará en tinieblas.", r: "Juan 8:12" },
@@ -35,18 +31,6 @@ function updateVerse() {
 // Configurar el cambio automático: 300,000 ms = 5 minutos
 setInterval(updateVerse, 300000);
 
-//ACTUALIZA ESTADO VISUAL (EN VIVO / PAUSADO)
-
-//ACTUALIZA ESTADÍSTICAS (OYENTES / PAÍSES)
-
-//BOTÓN PLAY / PAUSE (ÚNICO Y PROTEGIDO)
-
-//CONTROL DE VOLUMEN (NO CONSUME DATOS EXTRA)
-
-// Error de conexión con el stream
-
-// SIMULACIÓN DE ESTADÍSTICAS (Luego será reemplazado por AzuraCast API)
-
 // WHATSAPP AUTOMÁTICO SEGÚN ESTADO REAL
 const WHATSAPP_NUMBER = "51991111228";
 const RADIO_NAME = "Radio La Luz Radiante 101.3 FM";
@@ -69,10 +53,9 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-// 📦 CARGAR VERSIÓN AUTOMÁTICA
+// CARGAR VERSIÓN AUTOMÁTICA
 
-// APP BAR FUNCIONAL (ESTABLE)
-
+// APP BAR FUNCIONAL 
 const appBar = document.querySelector(".app-bar");
 if (appBar) {
   appBar.addEventListener("click", e => {
@@ -90,5 +73,6 @@ if (appBar) {
     }
   });
 }
+
 
 
