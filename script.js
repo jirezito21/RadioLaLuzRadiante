@@ -48,7 +48,7 @@ setInterval(updateVerse, 300000);
 // SIMULACIÓN DE ESTADÍSTICAS (Luego será reemplazado por AzuraCast API)
 
 // WHATSAPP AUTOMÁTICO SEGÚN ESTADO REAL
-const WHATSAPP_NUMBER = "51918215902";
+const WHATSAPP_NUMBER = "51991111228";
 const RADIO_NAME = "Radio La Luz Radiante 101.3 FM";
 
 if (whatsappBtn) {
@@ -90,4 +90,5 @@ if (appBar) {
     }
   });
 }
+
 
